@@ -69,6 +69,13 @@
   background: var(--main);
 }
 
+html,
+body,
+#body {
+  height: 100%;
+  width: 100%;
+}
+
 html {
   scroll-behavior: smooth;
   font-family: var(--base-font-family);
@@ -2870,21 +2877,6 @@ span.arrow {
 
 .carve-spot-hang {
   position: sticky;
-}
-
-/* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
-/* +*+*+*+*+*+*+*+*+*+* DISPLAY *+*+*+*+*+*++*+*+*+*+*+ */
-/* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
-.d-flex {
-  display: flex !important;
-}
-
-.d-block {
-  display: block !important;
-}
-
-.d-0 {
-  display: none !important;
 }
 
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+*+*+*+*+*+ */

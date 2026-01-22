@@ -130,17 +130,17 @@ function closeRiseDrawer() {
 }
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* Toast *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-function openToast() {
-  var seekToast = document.querySelector('.carve-toast');
-  seekToast.classList.add('seek');
-  setTimeout(() => {
-    seekToast.classList.add('modal-cl');
-  }, 3900)
-  setTimeout(() => {
-    seekToast.classList.remove('modal-cl');
-    seekToast.classList.remove('seek');
-  }, 4000)
-}
+// function openToast() {
+//   var seekToast = document.querySelector('.carve-toast');
+//   seekToast.classList.add('seek');
+//   setTimeout(() => {
+//     seekToast.classList.add('modal-cl');
+//   }, 3900)
+//   setTimeout(() => {
+//     seekToast.classList.remove('modal-cl');
+//     seekToast.classList.remove('seek');
+//   }, 4000)
+// }
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* Select filter *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
@@ -257,10 +257,12 @@ var scrollToTop, mainSection;
 scrollToTop = document.querySelector('.button-fab');
 mainSection = document.querySelector('.body');
 window.onscroll = () => {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    scrollToTop.style.display = 'flex'
-  } else {
-    scrollToTop.style.display = 'none'
+  if (scrollToTop) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      scrollToTop.style.display = 'flex'
+    } else {
+      scrollToTop.style.display = 'none'
+    }
   }
 }
 
@@ -354,52 +356,72 @@ const dynamicSticky = document.getElementById("dynamicSticky");
 const dynamicStickyC = document.getElementById("dynamicStickyC");
 const menuGroup = document.querySelectorAll("#menuGroup, .menu-wrapper-outer");
 
-dynamicSticky.addEventListener("click", () => {
-  menuGroup.forEach(group => group.classList.add("seek"));
-  dynamicSticky.style.display = "none";
-  dynamicStickyC.style.display = "flex";
+if (dynamicSticky) {
+  dynamicSticky.addEventListener("click", () => {
+    menuGroup.forEach(group => group.classList.add("seek"));
+    dynamicSticky.style.display = "none";
+    dynamicStickyC.style.display = "flex";
 
-  // Wait for rotation animation to finish
-  menuGroup.forEach(group => group.addEventListener("animationend", handleAnimationEnd));
-});
+    // Wait for rotation animation to finish
+    menuGroup.forEach(group => group.addEventListener("animationend", handleAnimationEnd));
+  });
+} else {
+  console.warn("Element with ID 'dynamicSticky' not found.");
+}
+
 
 function handleAnimationEnd() {
   menuGroup.forEach(group => group.classList.add("show-icons"));
   menuGroup.forEach(group => group.removeEventListener("animationend", handleAnimationEnd)); // remove listener
 }
 
-dynamicStickyC.addEventListener("click", () => {
-  menuGroup.forEach(group => group.classList.remove("seek", "show-icons"));
-  dynamicSticky.style.display = "flex";
-  dynamicStickyC.style.display = "none";
-});
+if (dynamicStickyC) {
+  dynamicStickyC.addEventListener("click", () => {
+    menuGroup.forEach(group => group.classList.remove("show-icons"));
+    menuGroup.forEach(group => group.classList.add("waneout"));
+    dynamicStickyC.style.display = "none";
+    dynamicSticky.style.display = "flex";
+
+    // Wait for waneout animation to finish
+    menuGroup.forEach(group => group.addEventListener("animationend", handleWaneoutEnd));
+  });
+} else {
+  console.warn("Element with ID 'dynamicStickyC' not found.");
+}
 
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+ CAROUSEL *+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+* */
 // Fetch images and build slides
-fetch('https://dummyjson.com/products?limit=10&select=images,title,description')
-  .then(res => res.json())
-  .then(data => {
-    const slidesList = document.querySelector("[data-slides]");
-    data.products.forEach((product, idx) => {
-      const li = document.createElement("li");
-      li.className = "carve-slide";
-      if (idx === 0) li.setAttribute("data-active", "");
-      li.innerHTML = `
-            <img src="${product.images[0]}" alt="Slide ${idx + 1}">
-            <div className="carousel-caption">
-              <div className="carousel-caption-title">${product.title}</div>
-              <div className="carousel-caption-desc">${product.description}</div>
-            </div>
-          `;
-      slidesList.appendChild(li);
+const slidesList = document.querySelector("[data-slides]");
+if (slidesList) {
+  fetch('https://dummyjson.com/products?limit=10&select=images,title,description')
+    .then(res => res.json())
+    .then(data => {
+      data.products.forEach((product, idx) => {
+        const li = document.createElement("li");
+        li.className = "carve-slide";
+        if (idx === 0) li.setAttribute("data-active", "");
+        li.innerHTML = `
+              <img src="${product.images[0]}" alt="Slide ${idx + 1}">
+              <div className="carousel-caption">
+                <div className="carousel-caption-title">${product.title}</div>
+                <div className="carousel-caption-desc">${product.description}</div>
+              </div>
+            `;
+        slidesList.appendChild(li);
+      });
+      initCarousel();
     });
-    initCarousel();
-  });
+}
 
 function initCarousel() {
   const slides = document.querySelector("[data-slides]");
+  // Add a check to prevent errors if the element is still not found (e.g., due to typo)
+  if (!slides) {
+    console.error("Carousel container with data-slides attribute not found.");
+    return; // Exit the function if slides element is null
+  }
   const slideItems = slides.children;
   let currentIndex = 0;
   let isAnimating = false;
@@ -482,40 +504,38 @@ function initCarousel() {
 /* +*+*+*+*+*+*+*+*+*+ PAGINATION *+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+* */
 const pagination = document.querySelector("#pagination");
-const buttons = pagination.querySelectorAll(".carve-button-vice");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
+// Check if pagination element exists before proceeding
+if (pagination) {
+  const buttons = pagination.querySelectorAll(".carve-button-vice");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
 
-let currentPage = 4; // default active page
-const totalPages = buttons.length;
+  let currentPage = 4; // default active page
+  const totalPages = buttons.length;
 
-// Helper: update active page
-function setActive(page) {
-  if (page < 1) page = totalPages; // wrap to last page
-  if (page > totalPages) page = 1; // wrap to first page
-  currentPage = page;
+  // Helper: update active page
+  function setActive(page) {
+    if (page < 1) page = totalPages; // wrap to last page
+    if (page > totalPages) page = 1; // wrap to first page
+    currentPage = page;
 
-  buttons.forEach((btn, idx) => {
-    btn.classList.toggle("active", idx + 1 === currentPage);
-  });
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle("active", idx + 1 === currentPage);
+    });
+    prevBtn.addEventListener("click", () => {
+      setActive(currentPage - 1);
+    });
+
+    // Next click
+    nextBtn.addEventListener("click", () => {
+      setActive(currentPage + 1);
+    });
+  }
+
+  // Number click
+} else {
+  console.warn("Pagination element with ID '#pagination' not found.");
 }
-
-// Number click
-buttons.forEach((btn, idx) => {
-  btn.addEventListener("click", () => {
-    setActive(idx + 1);
-  });
-});
-
-// Prev click
-prevBtn.addEventListener("click", () => {
-  setActive(currentPage - 1);
-});
-
-// Next click
-nextBtn.addEventListener("click", () => {
-  setActive(currentPage + 1);
-});
 
 
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
@@ -533,8 +553,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.setProperty("--y-move", `${(Math.random() * 2 - 1) * 100}px`);
     dot.style.setProperty("--x-start", `${Math.random() * 100}vw`);
     dot.style.setProperty("--y-start", `${Math.random() * 100}vh`);
-
-    dotsContainer.appendChild(dot);
+    if (dotsContainer) {
+      dotsContainer.appendChild(dot);
+    }
   }
 });
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
