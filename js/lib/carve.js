@@ -542,22 +542,25 @@ if (pagination) {
 /* +*+*+*+*+*+*+*+*+*+ DOT PARTICLE *+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+* */
 document.addEventListener("DOMContentLoaded", () => {
-  const dotsCount = 125;
+  const dotsCount = 40;
   const dotsContainer = document.getElementById("dotsContainer");
 
   for (let i = 0; i < dotsCount; i++) {
     const dot = document.createElement("span");
     dot.classList.add("dot");
 
-    dot.style.setProperty("--x-move", `${(Math.random() * 2 - 1) * 100}px`);
-    dot.style.setProperty("--y-move", `${(Math.random() * 2 - 1) * 100}px`);
     dot.style.setProperty("--x-start", `${Math.random() * 100}vw`);
     dot.style.setProperty("--y-start", `${Math.random() * 100}vh`);
-    if (dotsContainer) {
-      dotsContainer.appendChild(dot);
-    }
+
+    dot.style.setProperty("--x-move", (Math.random() * 2 - 1).toFixed(2));
+    dot.style.setProperty("--y-move", (Math.random() * 2 - 1).toFixed(2));
+
+    dot.style.animationDelay = `${Math.random() * -10}s`;
+
+    dotsContainer.appendChild(dot);
   }
 });
+
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+ POPOVER *+*+*+*+*+*+*+*+ */
 /* +*+*+*+*+*+*+*+*+*+*+*+*+*+**+*+*+*+*+*+*+*+* */
