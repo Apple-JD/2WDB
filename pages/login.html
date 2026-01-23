@@ -1,5 +1,5 @@
 <div class="carve-grid" style="place-items: center;height: 100%;">
-  <form name="loginFrm" action="" method="post">
+  <form name="loginFrm" action="" method="post" style="width: 32rem;">
     <div class="carve-card">
       <div class="carve-card-body">
         <div class="header-wrapper carve-space-bottom-hefty">
@@ -8,14 +8,25 @@
           </div>
         </div>
         <div class="input-field mandate">
-          <input type="text" required id="userEmail">
+          <input type="text" required id="userEmail" data-bind="name">
           <label for="userEmail">Your email</label>
           <i data-lucide="shield-user" class="form-icon"></i>
         </div>
         <div class="input-field mandate">
-          <input type="password" required id="password">
+          <input type="password" required id="password" data-bind="password">
           <label for="password">Password</label>
           <i data-lucide="shield-ellipsis" class="form-icon"></i>
+        </div>
+        <b>
+          <p>Output:</p>
+        </b>
+        <div class="console-output"
+          style="border-color: var(--border); min-height: 24px; border-width: 1px; border-style: solid; padding: 8px; margin-top: 12px; ">
+          <b>your email :</b>
+          <p data-bind="name"></p>
+          <br>
+          <b>your password :</b>
+          <p data-bind="password"></p>
         </div>
       </div>
       <div class="carve-card-footer">
