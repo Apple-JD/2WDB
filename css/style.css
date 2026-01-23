@@ -8,3 +8,7 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+.carve-card-body img {
+  padding: 0;
+}
