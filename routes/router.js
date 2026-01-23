@@ -32,7 +32,7 @@ function loadState(state) {
   if (!routes[page]) {
     throw Error("Template not registered in route");
   }
-
+  // PAGE TRANSITION EFFECT
   $body.css({
     transition: "all 500ms ease-in-out",
     opacity: 0,
