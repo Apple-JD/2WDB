@@ -542,7 +542,6 @@ header {
 .logo-wrapper img {
   max-width: 100%;
   object-fit: contain;
-  height: 100%;
 }
 
 
@@ -2240,17 +2239,7 @@ table td {
   .main-section-wrapper {
     flex-wrap: wrap;
     position: relative;
-  }
-
-  .logo-wrapper {
-    width: 50%;
-    display: flex;
-    /* margin: 0 auto; */
-    max-height: 7rem;
-    height: auto;
-    aspect-ratio: 43/10;
-    justify-content: center;
-  }
+  } 
 
   /* uncomment the below css for first column */
   /* .table-sticky th:first-child::after, .table-sticky td:first-child::after {

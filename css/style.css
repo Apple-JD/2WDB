@@ -1,5 +1,10 @@
-.header-wrapper {
-  margin: 30px auto;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html,
+body {
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  overflow: hidden;
 }
 
 .form-icon {
@@ -11,4 +16,12 @@
 
 .carve-card-body img {
   padding: 0;
+}
+
+form {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
 }
