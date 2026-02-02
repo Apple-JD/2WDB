@@ -20,8 +20,6 @@ body {
 
 form {
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 1) !important;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
 }

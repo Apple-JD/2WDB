@@ -1,10 +1,16 @@
 <div class="carve-grid" style="place-items: center;height: 100%;">
   <div class="header-wrapper">
-    <div class="logo-wrapper">
+    <!-- <div class="logo-wrapper">
       <img src="./../images/logo.png" class="p-0" alt="logo" width="200" height="200">
-    </div>
+    </div> -->
   </div>
   <form name="loginFrm" action="" method="post" style="width: 30rem;">
+    <div class="input-field mandate">
+      <input type="text" data-model="username" id="getInput" />
+      <label for="getInput">Your name</label>
+      Hello:<div data-bind="username"></div>
+    </div>
+
     <div class="input-field mandate">
       <input type="text" required id="userEmail" data-bind="name">
       <label for="userEmail">Your email</label>

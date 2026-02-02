@@ -54,3 +54,65 @@ window.initTwoWayBinding = function (scope = document) {
     }
   });
 };
+
+
+const Store = (() => {
+  const STORAGE_KEY = "APP_STATE";
+  const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  const state = { ...savedState };
+
+  const proxy = new Proxy(state, {
+    set(target, key, value) {
+      target[key] = value;
+
+      // persist
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(target));
+
+      // update views
+      document.querySelectorAll(`[data-bind="${key}"]`).forEach((el) => {
+        el.textContent = value;
+      });
+
+      document.querySelectorAll(`[data-model="${key}"]`).forEach((el) => {
+        if (el.value !== value) el.value = value;
+      });
+
+      return true;
+    }
+  });
+
+  function bindInputs(root = document) {
+    root.querySelectorAll("[data-model]").forEach((input) => {
+      const key = input.getAttribute("data-model");
+
+      if (input.__bound) return;
+      input.__bound = true;
+
+      input.addEventListener("input", (e) => {
+        proxy[key] = e.target.value;
+      });
+    });
+  }
+
+  function hydrateView() {
+    Object.keys(state).forEach((key) => {
+      proxy[key] = state[key]; // force UI sync
+    });
+  }
+
+  function init(root = document) {
+    bindInputs(root);
+    hydrateView();
+  }
+
+  return { state: proxy, init };
+})();
+document.addEventListener("DOMContentLoaded", () => {
+  Store.init();
+  if (!Store.state.username) {
+    Store.state.username = "Guest";
+  }
+});
+window.addEventListener("DOMContentLoaded", () => {
+  initTwoWayBinding();
+});
