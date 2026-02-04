@@ -23,3 +23,22 @@ form {
   background: rgba(255, 255, 255, 1) !important;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+.console-output {
+  /* background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 1rem;
+  height: 200px;
+  overflow-y: auto; */
+  border-color: var(--border);
+  min-height: 24px;
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px;
+  margin-top: 12px;
+}
+.bordered {
+  border: 1px dashed var(--border);
+  margin-bottom: 1.5rem;
+}
