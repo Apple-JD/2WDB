@@ -42,3 +42,7 @@ form {
   border: 1px dashed var(--border);
   margin-bottom: 1.5rem;
 }
+.carve-scroll-y {
+  max-height: 150px;
+  overflow-y: auto;
+}

@@ -4,7 +4,8 @@
       <img src="./../images/logo.png" class="p-0" alt="logo" width="200" height="200">
     </div>
   </div> -->
-  <form name="loginFrm" action="" method="post" style="width: 30rem;">
+  <form name="loginFrm" action="" method="post" style="width: 30rem;max-height: 60rem;
+    overflow-y: auto;">
     <h2>
       <b>
         <u>Reactive State</u>
@@ -48,12 +49,12 @@
       <p data-bind="password">FGGtyj@#$%^&*</p>
     </div>
     <div class="bordered"></div>
-    <h3>
-      <b>Users</b>
-    </h3>
     <!-- Placeholder: Store.init() will fetch and populate this list -->
-    <ul data-users-list data-users-source="/users.json"></ul>
-    <ul data-users-list data-users-source="https://dummyjson.com/users">
+    <h3><b><i>Local JSON</i></b></h3>
+    <ul data-users-list data-users-source="/users.json" class="carve-scroll-y"></ul>
+    <br><br>
+    <h3><b><i>API</i></b></h3>
+    <ul data-users-list data-users-source="https://dummyjson.com/users" class="carve-scroll-y">
     </ul>
 
   </form>
