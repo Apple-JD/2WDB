@@ -34,6 +34,19 @@
     </div>
   </form>
 </div>
+
+<script>
+  // Initialize Store binding immediately for this page
+  if (typeof Store !== 'undefined') {
+    Store.init();
+    // Restore values from localStorage if page was dynamically loaded
+    const savedState = JSON.parse(localStorage.getItem('APP_STATE')) || {};
+    Object.keys(savedState).forEach(key => {
+      const input = document.querySelector(`[data-model="${key}"]`);
+      if (input) input.value = savedState[key];
+    });
+  }
+</script>
 <div class="carve-toast" id="toastDefault">
   <span class="toast-message">
     Lorem ipsum dolor sit amet consectetur adipisicing elit.
