@@ -54,13 +54,48 @@ window.initTwoWayBinding = function (scope = document) {
     }
   });
 };
+// ============================
+// STORAGE ADAPTERS
+// ============================
+
+// Default: localStorage adapter
+const LocalStorageAdapter = {
+  load() {
+    return JSON.parse(localStorage.getItem("APP_STATE")) || {};
+  },
+  save(state) {
+    localStorage.setItem("APP_STATE", JSON.stringify(state));
+  }
+};
+
+// Optional: API adapter (client can configure)
+const ApiAdapter = {
+  async load() {
+    const res = await fetch(window.APP_CONFIG?.STATE_API || "/api/state");
+    return res.ok ? await res.json() : {};
+  },
+  async save(state) {
+    await fetch(window.APP_CONFIG?.STATE_API || "/api/state", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(state)
+    });
+  }
+};
+
+// Choose adapter (default = localStorage)
+const StorageAdapter =
+  window.APP_CONFIG?.storage === "api"
+    ? ApiAdapter
+    : LocalStorageAdapter;
 
 // ============================
 // PERSISTENT APP STATE STORE
 // ============================
 const Store = (() => {
   const STORAGE_KEY = "APP_STATE";
-  const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  const savedState = StorageAdapter.load() || {};
+
   const state = { ...savedState };
 
   const proxy = new Proxy(state, {
@@ -68,7 +103,7 @@ const Store = (() => {
       target[key] = value;
 
       // persist
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(target));
+      StorageAdapter.save(target);
 
       // update views
       document.querySelectorAll(`[data-bind="${key}"]`).forEach((el) => {
@@ -138,7 +173,8 @@ const Store = (() => {
       fetchAndAppendUsers(undefined, root);
     } else {
 
-      const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      const savedState = StorageAdapter.load() || {};
+
       Object.keys(savedState).forEach(key => {
         const input = root.querySelector(`[data-model="${key}"]`);
         if (input) input.value = savedState[key];
